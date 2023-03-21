@@ -23,6 +23,11 @@ Variables:
 - **dep_time**: Actual Departure Time (local time: hhmm)
 - **dep_delay**: Difference in minutes between scheduled and actual departure time. Early departures show negative numbers.	
 - **taxi_out**: Taxi Out Time, in Minutes
+
+Taxi Out Time refers to the amount of time an airplane spends taxiing on the ground from its departure gate or parking spot to the runway before taking off. It includes the time the aircraft spends waiting in line to take off, as well as any additional time spent taxiing due to congestion, runway closures, or other factors.
+
+The Taxi Out Time is an important component of an airline's flight schedule and can affect the overall efficiency of the airline's operations. Longer Taxi Out Times can result in delayed departures and increased costs due to additional fuel consumption, crew and ground staff wages, and potential penalties for missing scheduled departure times.
+
 - **wheels_off**: Wheels Off Time (local time: hhmm)
 - **wheels_on**: Wheels On Time (local time: hhmm)
 - **taxi_in**: 	Taxi In Time, in Minutes
