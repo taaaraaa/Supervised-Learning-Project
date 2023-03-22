@@ -51,7 +51,9 @@
 -- -- Reducing Data Size - Part 2
 -- -- Most features from the flights table will not be available for predicting delays 1 week in advance, i.e. taxi time
 -- -- Used features from flights_test and removed unnecessary and redundant columns: {branded_code_share, mkt_carrier,op_carrier_fl_num, flights, dup}
-
+-- -- Reducing Data Size - Part 3
+-- -- Notice that cancelled flights never have an arrival delay, and so are removable.
+-- SELECT * FROM flights WHERE cancelled = 0 AND arr_delay != 0;
 
 
 -- -- -- Large Data Pull: 6 weeks, 892k records: Jan 1-14, 2018 & Dec 24-Jan 14, 2019 & Dec 24-Dec 31, 2019
@@ -61,9 +63,10 @@
 -- , arr_delay
 -- FROM flights
 -- WHERE
--- 	(fl_date::date >= '2018-01-01' AND fl_date::date <= '2018-01-14') OR
+-- 	cancelled = 0 AND
+-- 	((fl_date::date >= '2018-01-01' AND fl_date::date <= '2018-01-14') OR
 -- 	(fl_date::date >= '2018-12-24' AND fl_date::date <= '2019-01-14') OR
--- 	(fl_date::date >= '2019-12-24' AND fl_date::date <= '2019-12-31')
+-- 	(fl_date::date >= '2019-12-24' AND fl_date::date <= '2019-12-31'))
 -- );
 
 
@@ -84,19 +87,15 @@
 
 
 -- -- -- Small Data Pull: 1 day, 19k records: 2019-01-01  
--- CREATE TABLE flights_small_sample AS (
--- SELECT 
--- fl_date, mkt_unique_carrier, mkt_carrier_fl_num, op_unique_carrier, tail_num, origin_airport_id, origin, origin_city_name, dest_airport_id, dest, dest_city_name, crs_dep_time, crs_arr_time, crs_elapsed_time, distance
--- , arr_delay
+-- CREATE TABLE flights_sample_small AS (
+-- SELECT *
 -- FROM flights_sample_large
 -- WHERE fl_date::date = '2019-01-01'
 -- );
 
 -- -- -- Medium Data Pull: 1 week: 146k records: 2019-01-01 to 2019-01-07
--- CREATE TABLE flights_medium_sample AS (
--- SELECT 
--- fl_date, mkt_unique_carrier, mkt_carrier_fl_num, op_unique_carrier, tail_num, origin_airport_id, origin, origin_city_name, dest_airport_id, dest, dest_city_name, crs_dep_time, crs_arr_time, crs_elapsed_time, distance
--- , arr_delay
+-- CREATE TABLE flights_sample_medium AS (
+-- SELECT *
 -- FROM flights_sample_large
 -- WHERE fl_date::date >= '2019-01-01' AND fl_date::date <= '2019-01-07'
 -- );
@@ -104,4 +103,6 @@
 
 
 -- Copy created sample tables to local machine, needed to be done using psql shell
--- \copy flights_sample_small TO '/LHL/w7-midterm_project/flights_sample_small.csv' CSV HEADER;
+-- \copy flights_sample_small TO '/Users/connorl/Downloads/LHL/w7-midterm_project/Supervised-Learning-Project/data/flights_sample_small.csv' CSV HEADER;
+-- \copy flights_sample_medium TO '/Users/connorl/Downloads/LHL/w7-midterm_project/Supervised-Learning-Project/data/flights_sample_medium.csv' CSV HEADER;
+-- \copy flights_sample_large TO '/Users/connorl/Downloads/LHL/w7-midterm_project/Supervised-Learning-Project/data/flights_sample_large.csv' CSV HEADER;
